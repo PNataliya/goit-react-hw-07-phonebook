@@ -27,12 +27,6 @@ export const ContactForm = () => {
   const onSubmitForm = async e => {
     e.preventDefault();
 
-    // const newContact = {
-    //   id: nanoid(),
-    //   name,
-    //   number,
-    // };
-
     if (
       contacts.some(
         contact => contact.name.toLowerCase() === name.toLowerCase()

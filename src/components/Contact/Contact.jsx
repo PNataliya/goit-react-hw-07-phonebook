@@ -3,7 +3,7 @@ import { FaTrash, FaUserTie } from 'react-icons/fa';
 
 import { ContactData, Number, Button, Icon } from './Contact.styled';
 
-export const Contact = ({ name, number, onDeleteContact }) => {
+export const Contact = ({ id, name, number, onDeleteContact }) => {
   return (
     <>
       <ContactData>
@@ -14,7 +14,7 @@ export const Contact = ({ name, number, onDeleteContact }) => {
       </ContactData>
       <ContactData>
         <Number>{number}</Number>
-        <Button type="button" onClick={onDeleteContact}>
+        <Button type="button" onClick={() => onDeleteContact(id)}>
           <FaTrash />
         </Button>
       </ContactData>

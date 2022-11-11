@@ -25,20 +25,22 @@ export const ContactList = () => {
   const filteredContactsList = filteredContacts();
 
   return (
-    <ul>
-      {filteredContactsList.map(({ id, name, number }) => {
-        return (
-          <AddedСontacts key={id}>
-            <Contact
-              name={name}
-              number={number}
-              onDeleteContact={onDeleteContact}
-              contactID={id}
-            />
-          </AddedСontacts>
-        );
-      })}
-    </ul>
+    data && (
+      <ul>
+        {filteredContactsList.map(({ id, name, number }) => {
+          return (
+            <AddedСontacts key={id}>
+              <Contact
+                name={name}
+                number={number}
+                onDeleteContact={onDeleteContact}
+                contactID={id}
+              />
+            </AddedСontacts>
+          );
+        })}
+      </ul>
+    )
   );
 };
 
