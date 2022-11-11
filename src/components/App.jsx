@@ -2,9 +2,11 @@ import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 import { AiOutlineRead } from 'react-icons/ai';
+import { useGetContactsQuery } from 'redux/contactApi';
 import { Container, ContainerTitle, SubHeading, IconTitle } from './App.styled';
 
 export const App = () => {
+  const { data } = useGetContactsQuery();
   return (
     <Container>
       <ContainerTitle>
@@ -17,8 +19,7 @@ export const App = () => {
 
       <SubHeading>Contacts</SubHeading>
       <Filter />
-
-      <ContactList />
+      {data ? <ContactList /> : <p>Contact list is empty.</p>}
     </Container>
   );
 };

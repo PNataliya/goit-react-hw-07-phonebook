@@ -1,14 +1,17 @@
 import { useState } from 'react';
 import {
+  useGetContactsQuery,
+  useAddContactMutation,
+} from '../../redux/contactApi';
+import {
   FormDataInput,
   EntryFieldLabel,
   InputName,
   InputArea,
   ButtonSubmit,
 } from './ContactForm.styled';
-import { useSelector, useDispatch } from 'react-redux';
+
 import { nanoid } from 'nanoid';
-import { addContact, getContacts } from '../../redux/contactsSlice';
 import { Report } from 'notiflix';
 
 export const ContactForm = () => {
@@ -18,31 +21,31 @@ export const ContactForm = () => {
   const onChangeName = e => setName(e.currentTarget.value);
   const onChangeNumber = e => setNumber(e.currentTarget.value);
 
-  const contacts = useSelector(getContacts);
-  const dispach = useDispatch();
+  const { data: contacts } = useGetContactsQuery();
+  const [newContact] = useAddContactMutation();
 
-  const onSubmitForm = e => {
+  const onSubmitForm = async e => {
     e.preventDefault();
 
-    const newContact = {
-      id: nanoid(),
-      name,
-      number,
-    };
+    // const newContact = {
+    //   id: nanoid(),
+    //   name,
+    //   number,
+    // };
 
     if (
-      !contacts.some(
+      contacts.some(
         contact => contact.name.toLowerCase() === name.toLowerCase()
       )
     ) {
-      dispach(addContact(newContact));
-    } else {
       Report.warning(
         `${name}`,
         'This user is already in the contact list.',
         'OK'
       );
+      return;
     }
+    await newContact({ id: nanoid(), name, number });
 
     resetForm();
   };

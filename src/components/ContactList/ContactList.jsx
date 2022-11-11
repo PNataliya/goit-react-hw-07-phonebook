@@ -1,38 +1,38 @@
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { getFilter } from '../../redux/selectors';
 import { Contact } from '../Contact/Contact';
 import {
-  deleteContact,
-  getFilter,
-  getContacts,
-} from '../../redux/contactsSlice';
+  useGetContactsQuery,
+  useDeleteContactMutation,
+} from '../../redux/contactApi';
 import { AddedСontacts } from './ContactList.styled';
 
 export const ContactList = () => {
-  const filterValue = useSelector(getFilter);
-  const contacts = useSelector(getContacts);
-  const dispatch = useDispatch();
-  const deleteSelectedContact = contactID => dispatch(deleteContact(contactID));
+  const { data } = useGetContactsQuery();
+  const filter = useSelector(getFilter);
 
-  const contactsFilter = () => {
-    const filterNormalize = filterValue.toLowerCase();
+  const [deleteContact] = useDeleteContactMutation();
+  const onDeleteContact = id => deleteContact(id);
 
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filterNormalize)
+  const filteredContacts = () => {
+    const normalizedFilter = filter.toLowerCase();
+    return data.filter(contact =>
+      contact.name.toLowerCase().includes(normalizedFilter)
     );
   };
 
-  const filteredContacts = contactsFilter();
+  const filteredContactsList = filteredContacts();
 
   return (
     <ul>
-      {filteredContacts.map(({ id, name, number }) => {
+      {filteredContactsList.map(({ id, name, number }) => {
         return (
           <AddedСontacts key={id}>
             <Contact
               name={name}
               number={number}
-              onDeleteContact={() => deleteSelectedContact(id)}
+              onDeleteContact={onDeleteContact}
               contactID={id}
             />
           </AddedСontacts>

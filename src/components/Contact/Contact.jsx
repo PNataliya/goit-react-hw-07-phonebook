@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
-import { ContactData, Number, Button, Icon } from './Contact.styled';
 import { FaTrash, FaUserTie } from 'react-icons/fa';
+
+import { ContactData, Number, Button, Icon } from './Contact.styled';
 
 export const Contact = ({ name, number, onDeleteContact }) => {
   return (
